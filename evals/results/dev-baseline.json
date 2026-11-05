@@ -1,0 +1,375 @@
+{
+  "split": "dev",
+  "rounds": 1,
+  "model": "groq/openai/gpt-oss-120b",
+  "official": [
+    {
+      "steps": {
+        "flag-claims": {
+          "false-claims-caught": 0.9230769230769231,
+          "true-claims-not-flagged": 1
+        }
+      }
+    }
+  ],
+  "rows": [
+    {
+      "round": 1,
+      "id": "dev-location-plain",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "travelled to dental clinics",
+          "type": "location",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [
+        {
+          "includes": "support engineer at Tandvik",
+          "type": "control",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "I was a support engineer at Tandvik Software from March 2021 to June 2024.",
+          "verdict": "supported",
+          "reason": "F1 directly states the employment period and role."
+        },
+        {
+          "text": "I travelled to dental clinics across Sweden.",
+          "verdict": "contradicted",
+          "reason": "F6 states the candidate never visited clinics or travelled for work, contradicting the claim of traveling to clinics."
+        },
+        {
+          "text": "I fixed problems on site.",
+          "verdict": "contradicted",
+          "reason": "F6 states the candidate never fixed problems on site, contradicting the claim."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-location-implied",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "customer sites",
+          "type": "location",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I spent most weeks at customer sites.",
+          "verdict": "contradicted",
+          "reason": "Evidence states the candidate never visited a clinic or customer on site and never travelled for work, which directly contradicts the claim of spending most weeks at customer sites."
+        },
+        {
+          "text": "I worked side by side with clinic staff.",
+          "verdict": "contradicted",
+          "reason": "Evidence indicates the candidate worked with clinics only by phone and video call, never on site, contradicting the claim of working side by side with clinic staff."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-location-true",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "phone and video call",
+          "type": "location",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "I helped dental clinics by phone and video call.",
+          "verdict": "supported",
+          "reason": "F6 states she worked with clinics by phone and video call only, directly supporting the claim."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-origin-nobody",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "Nobody asked me",
+          "type": "origin",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "Nobody asked me to",
+          "verdict": "contradicted",
+          "reason": "Evidence F3 states the appointment-sync retry service was assigned to Ines by her team lead, indicating someone asked her to work on it."
+        },
+        {
+          "text": "I built the appointment-sync retry service",
+          "verdict": "no_evidence",
+          "reason": "No evidence directly states that Ines built the appointment-sync retry service."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-origin-proposed",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "proposed the retry",
+          "type": "origin",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I spotted the sync failures myself.",
+          "verdict": "no_evidence",
+          "reason": "No evidence about who spotted the sync failures."
+        },
+        {
+          "text": "I proposed the retry service to my team.",
+          "verdict": "contradicted",
+          "reason": "Evidence states the retry service was assigned to her and not her idea, contradicting the claim that she proposed it."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-origin-true",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "assigned me",
+          "type": "origin",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "My team lead assigned me the appointment-sync retry service.",
+          "verdict": "supported",
+          "reason": "F3 states the team lead assigned the appointment-sync retry service."
+        },
+        {
+          "text": "It was in Q3 2023.",
+          "verdict": "supported",
+          "reason": "F3 states the service was in Q3 2023."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-language-url",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "in Python",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I wrote linguist (github.com/octocat/linguist) in Python.",
+          "verdict": "contradicted",
+          "reason": "The draft says Python, GitHub says Ruby."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-language-name-only",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "TypeScript project",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "My TypeScript project Spoon-Knife",
+          "verdict": "contradicted",
+          "reason": "The draft says TypeScript, GitHub says HTML."
+        },
+        {
+          "text": "Spoon-Knife is on GitHub",
+          "verdict": "no_evidence",
+          "reason": "The evidence list (F1-F8 and JOB) contains no statements about Spoon‑Knife or its presence on GitHub."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-language-true",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "written in Ruby",
+          "type": "language",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "linguist (github.com/octocat/linguist) is written in Ruby.",
+          "verdict": "supported",
+          "reason": "GitHub agrees: Ruby."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-other-number",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "40 percent",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "The retry service shipped.",
+          "verdict": "supported",
+          "reason": "Evidence F4 states that in the first month after the retry service shipped, confirming the service was shipped."
+        },
+        {
+          "text": "Failed appointment syncs dropped by 40 percent.",
+          "verdict": "contradicted",
+          "reason": "Evidence F4 reports a 12 percent drop in failed appointment syncs, which contradicts the claim of a 40 percent drop."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-other-seniority",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "I led",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I led the support team of five engineers.",
+          "verdict": "contradicted",
+          "reason": "Evidence F7 states the candidate was one of five engineers on the support team and never managed anyone, which directly contradicts the claim of leading the support team."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-other-job-ad",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "office in Oslo",
+          "type": "other",
+          "outcome": "not_extracted"
+        }
+      ],
+      "clean": [
+        {
+          "includes": "document review tools",
+          "type": "control",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "Quillbeam makes document review tools for small law firms.",
+          "verdict": "supported",
+          "reason": "The job ad states that Quillbeam makes document review tools for small law firms."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-letter",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "visited clinics",
+          "type": "location",
+          "outcome": "caught"
+        },
+        {
+          "includes": "On my own initiative",
+          "type": "origin",
+          "outcome": "caught"
+        },
+        {
+          "includes": "in JavaScript",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [
+        {
+          "includes": "support engineer",
+          "type": "control",
+          "outcome": "kept"
+        },
+        {
+          "includes": "scheduling software",
+          "type": "control",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "From March 2021 to June 2024 I was a support engineer at Tandvik Software.",
+          "verdict": "supported",
+          "reason": "F1 explicitly states the candidate worked as a support engineer at Tandvik Software from March 2021 to June 2024."
+        },
+        {
+          "text": "I regularly visited clinics in person to train their staff.",
+          "verdict": "contradicted",
+          "reason": "F6 says the candidate only worked with clinics by phone/video and never visited a clinic on site, contradicting the claim of regular in‑person visits."
+        },
+        {
+          "text": "On my own initiative I built a retry service for appointment sync.",
+          "verdict": "contradicted",
+          "reason": "F3 notes the retry service was assigned to the candidate by her team lead and was not her idea, contradicting the claim of building it on her own initiative."
+        },
+        {
+          "text": "I built a retry service for appointment sync.",
+          "verdict": "supported",
+          "reason": "F3 indicates the candidate was assigned the ticket for the appointment‑sync retry service, implying she built it."
+        },
+        {
+          "text": "I wrote linguist (github.com/octocat/linguist) in JavaScript.",
+          "verdict": "contradicted",
+          "reason": "The draft says JavaScript, GitHub says Ruby."
+        },
+        {
+          "text": "Tandvik Software makes scheduling software for dental clinics.",
+          "verdict": "supported",
+          "reason": "F2 states Tandvik Software makes appointment scheduling software for dental clinics, matching the claim."
+        }
+      ]
+    }
+  ]
+}

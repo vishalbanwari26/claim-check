@@ -1,0 +1,16 @@
+{
+  "name": "Ines Varga",
+  "note": "Invented person for the demo. Every fact here was written by the candidate, so it counts as confirmed.",
+  "facts": [
+    { "id": "F1", "text": "Worked as a support engineer at Tandvik Software from March 2021 to June 2024." },
+    { "id": "F2", "text": "Tandvik Software makes appointment scheduling software for dental clinics in Sweden." },
+    { "id": "F3", "text": "The appointment-sync retry service was a ticket assigned to Ines by her team lead in Q3 2023. It was not her idea." },
+    { "id": "F4", "text": "In the first month after the retry service shipped, failed appointment syncs dropped by 12 percent." },
+    { "id": "F5", "text": "Completed a part-time data science certificate at Solbacka College in 2024." }
+  ],
+  "projects": [
+    { "name": "linguist", "repo": "octocat/linguist" },
+    { "name": "Spoon-Knife", "repo": "octocat/Spoon-Knife" },
+    { "name": "Hello-World", "repo": "octocat/Hello-World" }
+  ]
+}

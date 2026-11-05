@@ -1,0 +1,1061 @@
+{
+  "split": "all",
+  "rounds": 1,
+  "model": "groq/openai/gpt-oss-120b",
+  "official": [
+    {
+      "steps": {
+        "flag-claims": {
+          "false-claims-caught": 1,
+          "true-claims-not-flagged": 1
+        }
+      }
+    }
+  ],
+  "rows": [
+    {
+      "round": 1,
+      "id": "dev-location-plain",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "travelled to dental clinics",
+          "type": "location",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [
+        {
+          "includes": "support engineer at Tandvik",
+          "type": "control",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "I was a support engineer at Tandvik Software from March 2021 to June 2024.",
+          "verdict": "supported",
+          "reason": "F1 directly states the employment period and role."
+        },
+        {
+          "text": "I travelled to dental clinics across Sweden.",
+          "verdict": "contradicted",
+          "reason": "F6 says she never travelled for work, contradicting travel to clinics."
+        },
+        {
+          "text": "I fixed problems on site.",
+          "verdict": "contradicted",
+          "reason": "F6 states she never visited a clinic or customer on site, contradicting fixing problems on site."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-location-implied",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "customer sites",
+          "type": "location",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I spent most weeks at customer sites",
+          "verdict": "contradicted",
+          "reason": "Evidence states she never visited a clinic or customer on site, contradicting the claim of spending most weeks at customer sites."
+        },
+        {
+          "text": "I worked side by side with clinic staff",
+          "verdict": "contradicted",
+          "reason": "Evidence says she worked with clinics only by phone/video and never visited, contradicting the claim of working side by side with clinic staff."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-location-true",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "phone and video call",
+          "type": "location",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "I helped dental clinics by phone and video call.",
+          "verdict": "supported",
+          "reason": "F6 states she worked with clinics by phone and video call only, directly supporting the claim."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-location-road",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "on the road",
+          "type": "location",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "My work took me on the road to clinics in Malmö and Gothenburg.",
+          "verdict": "contradicted",
+          "reason": "Evidence F6 states she never visited a clinic or travelled for work, which directly contradicts the claim of going on the road to clinics in Malmö and Gothenburg."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-location-field",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "customer locations",
+          "type": "location",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I was a field support engineer at Tandvik.",
+          "verdict": "contradicted",
+          "reason": "Evidence F6 states she never visited a clinic or customer on site, so she could not have been a field support engineer."
+        },
+        {
+          "text": "I was the face of Tandvik at customer locations.",
+          "verdict": "contradicted",
+          "reason": "Evidence F6 says she never went to customer locations, contradicting the claim of being the face of Tandvik at those locations."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-location-true",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "done remotely",
+          "type": "location",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "All of my customer work was done remotely, by phone or video.",
+          "verdict": "supported",
+          "reason": "Evidence F6 states that the candidate worked with clinics only by phone and video call, never visiting a clinic or traveling for work, which directly supports the claim that all customer work was done remotely."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-origin-nobody",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "Nobody asked me",
+          "type": "origin",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "Nobody asked me to",
+          "verdict": "contradicted",
+          "reason": "Evidence F3 states the appointment-sync retry service was assigned to Ines by her team lead, meaning she was asked to work on it, contradicting the claim that nobody asked her."
+        },
+        {
+          "text": "I built the appointment-sync retry service",
+          "verdict": "no_evidence",
+          "reason": "No evidence directly states that Ines built the appointment-sync retry service; the evidence only mentions it was assigned to her."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-origin-proposed",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "proposed the retry",
+          "type": "origin",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I spotted the sync failures myself",
+          "verdict": "no_evidence",
+          "reason": "No evidence provided in the list supports the claim."
+        },
+        {
+          "text": "I proposed the retry service to my team",
+          "verdict": "contradicted",
+          "reason": "Evidence states the retry service was assigned to her by her team lead and was not her idea, contradicting the claim."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-origin-true",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "assigned me",
+          "type": "origin",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "My team lead assigned me the appointment-sync retry service",
+          "verdict": "supported",
+          "reason": "F3 states the appointment-sync retry service was assigned to Ines by her team lead."
+        },
+        {
+          "text": "The appointment-sync retry service was assigned in Q3 2023",
+          "verdict": "supported",
+          "reason": "F3 states the appointment-sync retry service was assigned in Q3 2023."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-origin-ownership",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "took ownership",
+          "type": "origin",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I took ownership of the retry service",
+          "verdict": "no_evidence",
+          "reason": "No evidence states that the candidate took ownership of the retry service; the evidence only notes the ticket was assigned to her and not her idea."
+        },
+        {
+          "text": "I delivered the retry service",
+          "verdict": "no_evidence",
+          "reason": "No evidence confirms that the candidate delivered the retry service; the evidence only mentions the ticket assignment."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-origin-sideproject",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "side project",
+          "type": "origin",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "It began as my own side project.",
+          "verdict": "contradicted",
+          "reason": "Evidence F3 states the retry service was assigned by her team lead and was not her idea, contradicting the claim it began as her own side project."
+        },
+        {
+          "text": "It became the team's retry service.",
+          "verdict": "supported",
+          "reason": "Evidence F3 indicates the appointment-sync retry service was a ticket assigned by the team lead, showing it became a team service."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-origin-true",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "assigned to me",
+          "type": "origin",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "The retry service was assigned to me by my team lead.",
+          "verdict": "supported",
+          "reason": "Evidence F3 explicitly states that the appointment-sync retry service was assigned to Ines by her team lead, matching the claim."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-language-url",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "in Python",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I wrote linguist (github.com/octocat/linguist).",
+          "verdict": "no_evidence",
+          "reason": "No evidence item mentions writing linguist or any related work."
+        },
+        {
+          "text": "linguist (github.com/octocat/linguist) is written in Python.",
+          "verdict": "contradicted",
+          "reason": "The draft says Python, GitHub says Ruby."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-language-name-only",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "TypeScript project",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "My TypeScript project Spoon-Knife",
+          "verdict": "contradicted",
+          "reason": "The draft says TypeScript, GitHub says HTML."
+        },
+        {
+          "text": "Spoon-Knife is on GitHub",
+          "verdict": "no_evidence",
+          "reason": "The evidence list does not contain any information about Spoon‑Knife or its presence on GitHub."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-language-true",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "written in Ruby",
+          "type": "language",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "linguist (github.com/octocat/linguist) is written in Ruby.",
+          "verdict": "supported",
+          "reason": "GitHub agrees: Ruby."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-language-missing-repo",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "ghost-repo",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I built ghost-repo in Go.",
+          "verdict": "could_not_check",
+          "reason": "GitHub lookup for octocat/this-repo-does-not-exist-claim-check returned not_found."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-language-no-language",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "C++",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "Hello-World is my C++ project.",
+          "verdict": "could_not_check",
+          "reason": "GitHub reports no main language for octocat/Hello-World."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-language-wrong",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "Rust",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "My Rust library linguist is open source.",
+          "verdict": "contradicted",
+          "reason": "The draft says Rust, GitHub says Ruby."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-language-true",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "Spoon-Knife",
+          "type": "language",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "I wrote the Spoon-Knife project in HTML.",
+          "verdict": "supported",
+          "reason": "GitHub agrees: HTML."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-other-number",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "40 percent",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "The retry service shipped.",
+          "verdict": "supported",
+          "reason": "Evidence F4 states that in the first month after the retry service shipped, confirming the service was shipped."
+        },
+        {
+          "text": "Failed appointment syncs dropped by 40 percent.",
+          "verdict": "contradicted",
+          "reason": "Evidence F4 reports a 12 percent drop in failed appointment syncs, which contradicts the claim of a 40 percent drop."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-other-seniority",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "I led",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I led the support team of five engineers.",
+          "verdict": "contradicted",
+          "reason": "Evidence F7 states the candidate was one of five engineers on the support team and never managed anyone, which directly contradicts the claim of leading the support team."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-other-job-ad",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "office in Oslo",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [
+        {
+          "includes": "document review tools",
+          "type": "control",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "Quillbeam makes document review tools for small law firms.",
+          "verdict": "supported",
+          "reason": "JOB description states Quillbeam makes document review tools for small law firms."
+        },
+        {
+          "text": "Your office is in Oslo.",
+          "verdict": "no_evidence",
+          "reason": "No evidence about office location; JOB mentions headquarters in Tallinn, not Oslo, but does not explicitly contradict the claim."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-other-degree",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "master's degree",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I hold a master's degree in data science from Solbacka College.",
+          "verdict": "contradicted",
+          "reason": "Evidence F5 states a part-time data science certificate was completed, not a master's degree."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-other-certificate-true",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "certificate",
+          "type": "control",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "I completed a part-time data science certificate at Solbacka College in 2024.",
+          "verdict": "supported",
+          "reason": "Evidence F5 explicitly states the completion of a part-time data science certificate at Solbacka College in 2024."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-other-company-size",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "200 employees",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "Quillbeam has grown to 200 employees.",
+          "verdict": "contradicted",
+          "reason": "The job ad states Quillbeam has 25 people, which contradicts the claim of 200 employees."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "dev-letter",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "visited clinics",
+          "type": "location",
+          "outcome": "caught"
+        },
+        {
+          "includes": "On my own initiative",
+          "type": "origin",
+          "outcome": "caught"
+        },
+        {
+          "includes": "in JavaScript",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [
+        {
+          "includes": "support engineer",
+          "type": "control",
+          "outcome": "kept"
+        },
+        {
+          "includes": "scheduling software",
+          "type": "control",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "From March 2021 to June 2024 I was a support engineer at Tandvik Software.",
+          "verdict": "supported",
+          "reason": "F1 explicitly states the employment period and role matching the claim."
+        },
+        {
+          "text": "I regularly visited clinics in person to train their staff.",
+          "verdict": "contradicted",
+          "reason": "F6 says she never visited clinics on site, directly opposing the claim of regular in‑person visits."
+        },
+        {
+          "text": "On my own initiative I built a retry service for appointment sync.",
+          "verdict": "contradicted",
+          "reason": "F3 notes the retry service was assigned to her and was not her idea, contradicting the claim of building it on her own initiative."
+        },
+        {
+          "text": "I built a retry service for appointment sync.",
+          "verdict": "supported",
+          "reason": "F3 confirms the retry service was assigned to her, indicating she built it."
+        },
+        {
+          "text": "I wrote linguist (github.com/octocat/linguist) in JavaScript.",
+          "verdict": "contradicted",
+          "reason": "The draft says JavaScript, GitHub says Ruby."
+        },
+        {
+          "text": "Tandvik Software makes scheduling software for dental clinics.",
+          "verdict": "supported",
+          "reason": "F2 states Tandvik Software makes appointment scheduling software for dental clinics, matching the claim."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "heldout-cv",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "on-site support",
+          "type": "location",
+          "outcome": "caught"
+        },
+        {
+          "includes": "Self-initiated",
+          "type": "origin",
+          "outcome": "caught"
+        },
+        {
+          "includes": "Spoon-Knife",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [
+        {
+          "includes": "clinic export script",
+          "type": "control",
+          "outcome": "kept"
+        },
+        {
+          "includes": "Data science certificate",
+          "type": "control",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "Ines Varga is a Support Engineer",
+          "verdict": "supported",
+          "reason": "F1 states Ines worked as a support engineer."
+        },
+        {
+          "text": "Worked at Tandvik Software",
+          "verdict": "supported",
+          "reason": "F1 confirms employment at Tandvik Software."
+        },
+        {
+          "text": "Employment period was March 2021 to June 2024",
+          "verdict": "supported",
+          "reason": "F1 provides the exact employment dates March 2021 to June 2024."
+        },
+        {
+          "text": "Provided on-site support to dental clinics in Sweden",
+          "verdict": "contradicted",
+          "reason": "F6 says she never visited a clinic on site, contradicting on‑site support."
+        },
+        {
+          "text": "Self-initiated an appointment-sync retry service",
+          "verdict": "contradicted",
+          "reason": "F3 notes the retry service was assigned to her and was not her idea."
+        },
+        {
+          "text": "The appointment-sync retry service cut failed syncs by 12 percent",
+          "verdict": "supported",
+          "reason": "F4 reports a 12 percent drop in failed syncs after the service shipped."
+        },
+        {
+          "text": "Wrote the clinic export script in Python",
+          "verdict": "supported",
+          "reason": "F8 states she wrote the clinic export script in Python."
+        },
+        {
+          "text": "Spoon-Knife is written in Python",
+          "verdict": "contradicted",
+          "reason": "The draft says Python, GitHub says HTML."
+        },
+        {
+          "text": "Earned a data science certificate from Solbacka College in 2024",
+          "verdict": "supported",
+          "reason": "F5 confirms she completed a data science certificate at Solbacka College in 2024."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-location-half-true",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "occasional visits",
+          "type": "location",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I supported dental clinics by phone, video and occasional visits.",
+          "verdict": "contradicted",
+          "reason": "Evidence F6 states she never visited a clinic, which contradicts the claim of occasional visits."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-location-vague",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "on the ground",
+          "type": "location",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I worked closely with clinic teams on the ground.",
+          "verdict": "contradicted",
+          "reason": "Evidence F6 states the candidate only worked with clinics by phone and video call and never visited a clinic or customer on site, which contradicts the claim of working closely with clinic teams on the ground."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-origin-no-keyword",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "kept failing",
+          "type": "origin",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "appointment sync kept failing",
+          "verdict": "no_evidence",
+          "reason": "No evidence states that the appointment sync kept failing."
+        },
+        {
+          "text": "I built a retry service to fix it",
+          "verdict": "no_evidence",
+          "reason": "No evidence directly states that the candidate built the retry service."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-origin-championed",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "championed",
+          "type": "origin",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I championed the retry service within my team.",
+          "verdict": "contradicted",
+          "reason": "Evidence F3 states the retry service was assigned to Ines by her team lead and was not her idea, contradicting the claim that she championed it."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-number-stretch",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "more than 12 percent",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "The retry service cut failed appointment syncs by more than 12 percent.",
+          "verdict": "contradicted",
+          "reason": "Evidence F4 states the failed appointment syncs dropped by 12 percent, which does not support the claim that the drop was more than 12 percent."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-duration-stretch",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "four years",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I spent four years at Tandvik Software.",
+          "verdict": "contradicted",
+          "reason": "F1 states employment from March 2021 to June 2024 (~3 years 3 months), which contradicts the claim of four years."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-title-inflation",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "senior support engineer",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I was a senior support engineer at Tandvik Software.",
+          "verdict": "contradicted",
+          "reason": "Evidence states she worked as a support engineer (F1) and was one of five engineers who never managed anyone (F7), which contradicts the claim of being a senior support engineer."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-date-wrong",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "in 2022",
+          "type": "other",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "The appointment-sync retry service was assigned to me in 2022.",
+          "verdict": "contradicted",
+          "reason": "Evidence F3 states the appointment-sync retry service was assigned to Ines in Q3 2023, not in 2022 as claimed."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-language-two",
+      "status": "scored",
+      "planted": [
+        {
+          "includes": "Ruby and Python",
+          "type": "language",
+          "outcome": "caught"
+        }
+      ],
+      "clean": [],
+      "claims": [
+        {
+          "text": "I wrote linguist (github.com/octocat/linguist).",
+          "verdict": "no_evidence",
+          "reason": "None of the provided evidence items mention writing linguist or any related work."
+        },
+        {
+          "text": "linguist (github.com/octocat/linguist) is written in Ruby.",
+          "verdict": "supported",
+          "reason": "GitHub agrees: Ruby."
+        },
+        {
+          "text": "linguist (github.com/octocat/linguist) is written in Python.",
+          "verdict": "contradicted",
+          "reason": "The draft says Python, GitHub says Ruby."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-true-duration",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "over three years",
+          "type": "paraphrase",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "I spent over three years as a support engineer.",
+          "verdict": "supported",
+          "reason": "Evidence F1 states the candidate worked as a support engineer from March 2021 to June 2024, which exceeds three years."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-true-manager",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "export script",
+          "type": "paraphrase",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "My manager asked me to write the clinic export script.",
+          "verdict": "supported",
+          "reason": "Evidence F8 states the manager asked her to write the clinic export script."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-true-negation",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "never travelled",
+          "type": "paraphrase",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "I never travelled for work.",
+          "verdict": "supported",
+          "reason": "F6 explicitly states that she never travelled for work."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-true-job",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "Tallinn",
+          "type": "paraphrase",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "Quillbeam is based in Tallinn",
+          "verdict": "supported",
+          "reason": "The job ad states Quillbeam is headquartered in Tallinn, Estonia, confirming the claim."
+        },
+        {
+          "text": "Quillbeam hires remotely across the EU",
+          "verdict": "supported",
+          "reason": "The job ad specifies the role is fully remote within the EU, indicating Quillbeam hires remotely across the EU."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-true-case",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "spoon-knife",
+          "type": "paraphrase",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "spoon-knife is written in html.",
+          "verdict": "supported",
+          "reason": "GitHub agrees: HTML."
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "id": "hard-true-script-language",
+      "status": "scored",
+      "planted": [],
+      "clean": [
+        {
+          "includes": "export script",
+          "type": "paraphrase",
+          "outcome": "kept"
+        }
+      ],
+      "claims": [
+        {
+          "text": "I used Python for the clinic export script.",
+          "verdict": "supported",
+          "reason": "F8 explicitly states that the clinic export script was written in Python."
+        }
+      ]
+    }
+  ]
+}

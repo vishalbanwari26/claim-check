@@ -1,0 +1,20 @@
+{
+  "name": "Ines Varga (eval copy)",
+  "note": "Invented person. Same history as ines-varga, plus the facts that a human would have corrected by now.",
+  "facts": [
+    { "id": "F1", "text": "Worked as a support engineer at Tandvik Software from March 2021 to June 2024." },
+    { "id": "F2", "text": "Tandvik Software makes appointment scheduling software for dental clinics in Sweden." },
+    { "id": "F3", "text": "The appointment-sync retry service was a ticket assigned to Ines by her team lead in Q3 2023. It was not her idea." },
+    { "id": "F4", "text": "In the first month after the retry service shipped, failed appointment syncs dropped by 12 percent." },
+    { "id": "F5", "text": "Completed a part-time data science certificate at Solbacka College in 2024." },
+    { "id": "F6", "text": "Worked with clinics by phone and video call only. Never visited a clinic or customer on site, and never travelled for work." },
+    { "id": "F7", "text": "Was one of five engineers on the support team and never managed anyone." },
+    { "id": "F8", "text": "Wrote the clinic export script in Python after a customer complained, because her manager asked for it." }
+  ],
+  "projects": [
+    { "name": "linguist", "repo": "octocat/linguist" },
+    { "name": "Spoon-Knife", "repo": "octocat/Spoon-Knife" },
+    { "name": "Hello-World", "repo": "octocat/Hello-World" },
+    { "name": "ghost-repo", "repo": "octocat/this-repo-does-not-exist-claim-check" }
+  ]
+}
