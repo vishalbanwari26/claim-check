@@ -6,6 +6,14 @@ claim-check takes a draft, pulls out every factual claim, checks each one agains
 
 Built on [Mastra](https://mastra.ai) in TypeScript. The model is `openai/gpt-oss-120b` on Groq. The candidate and the companies in `data/` are invented, and the GitHub repos belong to GitHub's `octocat` demo account.
 
+## Demo
+
+[![claim-check demo, 46 seconds, no audio](docs/demo-poster.jpg)](docs/demo.mp4)
+
+One run end to end on the invented sample candidate: a claim is flagged, a person corrects it in Mastra Studio, and the next run cites the correction. 46 seconds, no audio.
+
+What is real and what is not. The terminal output comes from real runs, and the Studio screens are real screenshots of real clicks. The typing and the terminal scrolling are simulated. The Scorers page at the end shows partial `dev` eval runs, with some cases rate limited. The caption's 33 of 33 and 19 of 19 come from the saved run on all 42 cases (`evals/results/all-final.json`), not from the rows on screen, and that is not a clean held-out number. See [Evals](#evals).
+
 ## Run it
 
 Needs a Groq API key. Tested on Node 26.
