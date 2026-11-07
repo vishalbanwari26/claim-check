@@ -1,8 +1,8 @@
 # claim-check
 
-AI-assisted job applications can read well and still contain things that never happened. Reading the result is a weak defence, because a false claim that sounds like you is easy to miss.
+AI-written text can read well and still state things that never happened. Reading the result is a weak defence, because a false claim that sounds right is easy to miss.
 
-claim-check takes a drafted CV or cover letter, pulls out every factual claim, checks each one against facts the candidate has confirmed, and stops for a human. Nothing is marked verified until a person approves it. When a person corrects something, the correction is saved and used on the next run.
+claim-check takes a draft, pulls out every factual claim, checks each one against facts a person has confirmed, and stops for a human. The example here is a job application, checked against one candidate's facts. Nothing is marked verified until a person approves it. When a person corrects something, the correction is saved and used on the next run.
 
 Built on [Mastra](https://mastra.ai) in TypeScript. The model is `openai/gpt-oss-120b` on Groq. The candidate and the companies in `data/` are invented, and the GitHub repos belong to GitHub's `octocat` demo account.
 

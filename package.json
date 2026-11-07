@@ -2,7 +2,7 @@
   "name": "claim-check",
   "version": "0.1.0",
   "private": true,
-  "description": "Checks every factual claim in an AI-assisted job application against confirmed facts, and lets a human sign off.",
+  "description": "Checks every factual claim in an AI-written draft against confirmed facts, and lets a human sign off.",
   "type": "module",
   "license": "MIT",
   "scripts": {
