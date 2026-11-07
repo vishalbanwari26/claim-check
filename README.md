@@ -8,7 +8,9 @@ Built on [Mastra](https://mastra.ai) in TypeScript. The model is `openai/gpt-oss
 
 ## Demo
 
-[![claim-check demo, 46 seconds, no audio](docs/demo-poster.jpg)](docs/demo.mp4)
+[![claim-check demo, 46 seconds, no audio](docs/demo.gif)](docs/demo.mp4)
+
+Click the animation for the full quality video.
 
 One run end to end on the invented sample candidate: a claim is flagged, a person corrects it in Mastra Studio, and the next run cites the correction. 46 seconds, no audio.
 
