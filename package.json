@@ -10,6 +10,7 @@
     "review": "tsx --env-file=.env cli.ts review",
     "facts": "tsx --env-file=.env cli.ts facts",
     "evals": "tsx --env-file=.env evals/run.ts",
+    "compare": "tsx evals/compare.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "dev": "mastra dev"
