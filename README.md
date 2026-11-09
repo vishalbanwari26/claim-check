@@ -8,13 +8,13 @@ Built on [Mastra](https://mastra.ai) in TypeScript. The model is `openai/gpt-oss
 
 ## Demo
 
-[![claim-check demo, 46 seconds, no audio](docs/demo.gif)](docs/demo.mp4)
+[![claim-check demo, 52 seconds, no audio](docs/demo.gif)](docs/demo.mp4)
 
 Click the animation for the full quality video.
 
-One run end to end on the invented sample candidate: a claim is flagged, a person corrects it in Mastra Studio, and the next run cites the correction. 46 seconds, no audio.
+One run end to end on the invented sample candidate. A claim is flagged, Mastra Studio shows the paused step pointing to the review page, a person decides every flagged claim there and corrects one, and the next run cites the correction. Then the trace, and the eval cases as a Mastra dataset. 52 seconds, no audio.
 
-What is real and what is not. The terminal output comes from real runs, and the Studio screens are real screenshots of real clicks. The typing and the terminal scrolling are simulated. The Scorers page at the end shows partial `dev` eval runs, with some cases rate limited. The caption's 33 of 33 and 19 of 19 come from the saved run on all 42 cases (`evals/results/all-final.json`), not from the rows on screen, and that is not a clean held-out number. See [Evals](#evals).
+What is real and what is not. It was filmed on a fresh, empty database, which is why it runs on port 4112. The terminal output comes from real runs, and the Studio and review page screens are real screenshots of real clicks, typing and a real submit. The cursor, the typing animation and the terminal scrolling are drawn on top. The closing numbers are not from anything on screen: 33 of 33 and 19 of 19 come from the saved run on all 42 cases (`evals/results/all-final.json`), which is not a clean held-out number, and 39 of 50 is the FEVER run. See [Evals](#evals).
 
 ## Run it
 
@@ -26,7 +26,7 @@ cp .env.example .env   # then add your GROQ_API_KEY
 ```
 
 ```bash
-npm run check -- data/drafts/cover-letter.md   # stops for review and prints a run id
+npm run check -- data/drafts/cover-letter.md   # stops for review, prints a run id and a review page link
 npm run review -- <run id>                     # decide each flagged claim, can be a new process
 npm run facts                                  # what a human confirmed vs what the agent inferred
 npm run check -- data/drafts/cover-letter.md   # same draft again, now using your corrections
@@ -35,7 +35,7 @@ npm test                                       # no network or API key needed
 npm run evals -- --split heldout --rounds 3    # the real model and the real GitHub API
 npm run dataset                                # load the 42 cases into a Mastra dataset, to browse in Studio
 npm run fever -- --n 50                        # the evidence checker on a FEVER sample (see Evals)
-npm run dev                                    # Mastra Studio at http://localhost:4111
+npm run dev                                    # Mastra Studio at http://localhost:4111, review page at /review
 ```
 
 ## What happens to a claim
@@ -74,6 +74,7 @@ flowchart TD
 | `src/mastra/ledger.ts` | Persistent memory, with human facts and agent inferences kept apart |
 | `src/mastra/tools/index.ts` | The three Zod-validated tools |
 | `src/mastra/scorers.ts`, `evals/` | Mastra scorers, 42 labelled cases, the runner, and saved results |
+| `src/mastra/page.ts`, `src/mastra/routes.ts` | The review page and its local-only API. It can start a check, lists waiting runs, shows every claim, and takes all decisions at once. It never writes a fact itself. It resumes the workflow, and the `human-review` step decides what gets written |
 | `cli.ts` | `check`, `review`, `facts` and `facts retract` |
 
 ## Design decisions
