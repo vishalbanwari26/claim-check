@@ -11,6 +11,7 @@
     "facts": "tsx --env-file=.env cli.ts facts",
     "evals": "tsx --env-file=.env evals/run.ts",
     "compare": "tsx evals/compare.ts",
+    "dataset": "tsx --env-file=.env evals/load-dataset.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "dev": "mastra dev"
