@@ -3,6 +3,7 @@ import { MastraStorageExporter, Observability, SensitiveDataFilter } from '@mast
 import { claimExtractor, evidenceChecker } from './agents'
 import { factMemory } from './ledger'
 import { falseClaimsCaught, trueClaimsNotFlagged } from './scorers'
+import { reviewRoutes } from './routes'
 import { storage } from './storage'
 import { checkRepoLanguage, readConfirmedFacts, readJobAd } from './tools'
 import { claimCheck } from './workflows/claim-check'
@@ -16,6 +17,7 @@ export const mastra = new Mastra({
   tools: { readConfirmedFacts, readJobAd, checkRepoLanguage },
   scorers: { falseClaimsCaught, trueClaimsNotFlagged },
   memory: { factMemory },
+  server: { apiRoutes: reviewRoutes },
   observability: new Observability({
     configs: {
       default: {
