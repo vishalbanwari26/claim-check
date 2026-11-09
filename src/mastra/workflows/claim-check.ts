@@ -1,7 +1,7 @@
 import { createStep, createWorkflow } from '@mastra/core/workflows'
 import { z } from 'zod'
 import { addConfirmed, addInferred } from '../ledger'
-import { attachSentences, buildReport, judgeClaims, labelSentences, mergeDecisions, resolveRepo, splitSentences } from '../logic'
+import { attachSentences, buildReport, checkerPrompt, judgeClaims, labelSentences, mergeDecisions, resolveRepo, splitSentences } from '../logic'
 import {
   checkStepOutput, checkerOutput, extractStepOutput, extractorOutput, flagStepOutput, report,
   readDecisions, reviewForm, reviewSuspend, workflowInput,
@@ -65,7 +65,7 @@ const checkEvidence = createStep({
 
     const general = inputData.claims.filter(c => !repoChecks[c.id])
     const llmVerdicts = general.length === 0 ? [] : (await mastra.getAgent('evidenceChecker').generate(
-      `EVIDENCE\n${evidence.map(e => `[${e.id}] ${e.text}`).join('\n')}\n\nCLAIMS\n${general.map(c => `${c.id}: ${c.text}`).join('\n')}`,
+      checkerPrompt(evidence, general),
       { ...callOptions, structuredOutput: { schema: checkerOutput }, tracingContext },
     )).object.verdicts
 

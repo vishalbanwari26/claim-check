@@ -36,6 +36,10 @@ export const resolveRepo = (ref: string | null, projects: { name: string; repo: 
   return projects.find(p => p.name.toLowerCase() === lower)?.repo ?? null
 }
 
+// The prompt the evidence checker gets. The workflow and the FEVER benchmark both build it here.
+export const checkerPrompt = (evidence: EvidenceItem[], claims: { id: string; text: string }[]) =>
+  `EVIDENCE\n${evidence.map(e => `[${e.id}] ${e.text}`).join('\n')}\n\nCLAIMS\n${claims.map(c => `${c.id}: ${c.text}`).join('\n')}`
+
 type Judged = Pick<CheckedClaim, 'agentVerdict' | 'agentReason' | 'citedEvidence'>
 
 const judgeRepoClaim = (claim: Claim, check: RepoCheck): Judged => {

@@ -24,7 +24,7 @@ export const readConfirmedFacts = createTool({
     projects: z.array(z.object({ name: z.string(), repo: z.string() })),
   }),
   execute: async ({ candidateId }) => {
-    const raw = await readFile(join(projectRoot(), 'data/candidates', `${candidateId}.json`), 'utf8')
+    const raw = await readFile(join(process.env.CLAIM_CHECK_CANDIDATES_DIR ?? join(projectRoot(), 'data/candidates'), `${candidateId}.json`), 'utf8')
     const file = candidateFile.parse(JSON.parse(raw))
     const confirmed = await readConfirmed(candidateId)
     return {

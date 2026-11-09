@@ -33,6 +33,8 @@ npm run check -- data/drafts/cover-letter.md   # same draft again, now using you
 npm run facts -- retract <fact id> --reviewer <name> --reason <why>   # take back a fact approved by mistake
 npm test                                       # no network or API key needed
 npm run evals -- --split heldout --rounds 3    # the real model and the real GitHub API
+npm run dataset                                # load the 42 cases into a Mastra dataset, to browse in Studio
+npm run fever -- --n 50                        # the evidence checker on a FEVER sample (see Evals)
 npm run dev                                    # Mastra Studio at http://localhost:4111
 ```
 
@@ -149,6 +151,32 @@ A perfect catch rate is the first thing to distrust. A tool that flags everythin
 These numbers say the modelled failure types are handled on these cases. They do not say the tool is accurate on real applications.
 
 `runEvals` skips step scorers when a step fails, so a rate-limited case would disappear from its average without a word. `evals/run.ts` counts errored cases and reports them separately.
+
+### A public benchmark: FEVER
+
+The 42 cases are mine, so they only show the agent working on failures I thought of. To see it on claims nobody here wrote, `evals/fever.ts` runs the evidence checker on a sample of [FEVER](https://fever.ai), a fact-verification benchmark. I used the `copenlu/fever_gold_evidence` validation split from Hugging Face (CC BY-SA 3.0, so the data stays out of git).
+
+Each FEVER item becomes one check. The claim is the draft, and the candidate's confirmed facts are the item's evidence sentences plus four sentences from other items as distractors. FEVER's labels map onto the verdicts: SUPPORTS to `supported`, REFUTES to `contradicted`, NOT ENOUGH INFO to `no_evidence`. Anything that is not clean support counts as flagged.
+
+50 items, 17 SUPPORTS, 17 REFUTES, 16 NOT ENOUGH INFO, same model, temperature 0:
+
+| FEVER label | Items | Right | Where the misses went |
+|---|---|---|---|
+| SUPPORTS | 17 | 14 | 3 flagged as `no_evidence` |
+| REFUTES | 17 | 11 | 6 flagged as `no_evidence` |
+| NOT ENOUGH INFO | 16 | 14 | 1 called contradicted, 1 called supported |
+
+39 of 50 right (78%), and the same on a second run. All 17 refuted claims ended up flagged, and 14 of 17 supported claims were left alone. Every miss on a SUPPORTS or REFUTES item was flagged as unproven. None got the opposite verdict.
+
+The two NOT ENOUGH INFO misses are questionable labels. "The first inauguration of Bill Clinton was held on a boat" was called contradicted, and the evidence says it was held on the West Front of the Capitol. "Selena Gomez & the Scene's debut album has a name" was called supported, and the evidence names it. In both the evidence settles the claim, so FEVER's label looks wrong, not the checker.
+
+What this does not show:
+
+- **It measures the checker only.** The claim extractor is written for job applications and extracted nothing from 3 of the first 6 FEVER items, so running the whole workflow would mostly have measured that. The claim goes straight to the checker agent, with the same prompt and verdict rules as the workflow. How the extractor does on general text is untested, and it is probably poor.
+- **The right evidence is handed over.** There is no retrieval step, so this is easier than FEVER itself.
+- **It is small and not random.** The 50 items come from 300 contiguous validation rows, a third per label. Expect roughly 10 points of noise.
+- **It is not stable item by item.** Two items changed class between two identical runs, with the same total. Temperature 0 does not make Groq deterministic.
+- **It is a different task from the 42 cases.** Do not average the two.
 
 ## How Mastra Studio was used
 

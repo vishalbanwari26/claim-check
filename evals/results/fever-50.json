@@ -1,0 +1,407 @@
+{
+  "benchmark": "FEVER (copenlu/fever_gold_evidence, validation)",
+  "seed": 1,
+  "model": "groq/openai/gpt-oss-120b",
+  "results": [
+    {
+      "id": "33b1bfc7f886b5dc9f5c8f9c1119916e",
+      "truth": "SUPPORTS",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "1408011dbcad7d7c877aec250f584583",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "521e802126e3ee63235f346278233f3d",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "1a32e1da6614ced5bc9c1b65ea7bb019",
+      "truth": "SUPPORTS",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "2560aeeebf15cc817b52f951600a3b86",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "0aca66829a762ce35cdf649de2681bad",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "680f1bd1a037479724d74a2c0e74359f",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "5395dcc8d2363375172aa56a57d3bf17",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "96e05d2b3a7a1bdf0bfa1792d71c0904",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "361112fa0ee724324f4ab7c84092f807",
+      "truth": "SUPPORTS",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "37990243182270e61f9a019a1b2453b5",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "f2cd0214c694446e42c7eddd67f8d224",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "26616c00a50c3ceea4d2178c9dd32ae4",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "319f45266c6ebad2af6f777e9c4792ad",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "fb8d980ca569fc6fdb1e2c34ca605f8f",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "4a195c096e9fd0b2201994f3331c558f",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "6f0986478479da321be1c5429772a79c",
+      "truth": "SUPPORTS",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "f1a8d099f103539bb42829a90266f42c",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "f378811a2a52e61708bc689ddb4df472",
+      "truth": "REFUTES",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "42b90a23000d68254a82ced1dc2f84dd",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "52aae9e520a762bae9bf57a076d227cd",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "b26daff4370cabf629b2a1f6d3e1e082",
+      "truth": "REFUTES",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "efbd706557a6ad1c4bab07b011062ea1",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "3de0df283d6d752aaa885d914260f7b5",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "3b32ea46a3a349e33425d83e48490b04",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "8d11b2d4193d7b6ad8509dd79d2bd57d",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "c8ac2a3fa90ad8fd34a36f0b1589ba53",
+      "truth": "REFUTES",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "3556f2e9d8f29aa49df0dbfc64bfd9a3",
+      "truth": "REFUTES",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "9e17ae3f846f36d7b9defa7c19195bc9",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "020690c7195813d3aa05ca59a99417d6",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "77dde1bdded01a78bfae7b3fde6e3417",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "076749a80d4e4411a65da5dcd43f5b41",
+      "truth": "REFUTES",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "654b82b0f482561895179226d975de75",
+      "truth": "REFUTES",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "3e5c7b1a73ce8ce0af5e2deb53e24d83",
+      "truth": "REFUTES",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "55ce19cbe57574a240e96849e8035a23",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "422fb22940c785e6c0cde796dafbd106",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "7dd3fd99e408919da5c75752543bd793",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "1b4bd29f649cd167ea771bfe39e7a57a",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "be943a7505433ac0e25594e323e8f9c0",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "d4c5dc9269b84026dea9282f9b422773",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "366a465ca134734fd6cc7de46e4c39c5",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "e0a99c6ff8efa7bb7cd662306c5c3347",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "b48756c81c0ed6358026c62aefc454c8",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "3c91a1a17075ff3e11f14708eb0996ab",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "8f30d502e072158c5232e06fbbcd8fbf",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "140e6afe2f83928d38bb76649d7cc749",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "REFUTES",
+      "verdicts": [
+        "contradicted"
+      ]
+    },
+    {
+      "id": "a19616c2f935ca525fd3d41efd33f463",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "SUPPORTS",
+      "verdicts": [
+        "supported"
+      ]
+    },
+    {
+      "id": "18bed6e4c34a04d5e98a0d2294ceec45",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "995553886d9cde01a1bdc42bd1be0cbb",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    },
+    {
+      "id": "d0723d39d452de66dab923b7c6e6d276",
+      "truth": "NOT ENOUGH INFO",
+      "predicted": "NOT ENOUGH INFO",
+      "verdicts": [
+        "no_evidence"
+      ]
+    }
+  ]
+}
