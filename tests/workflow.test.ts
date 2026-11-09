@@ -5,7 +5,9 @@ import { Mastra } from '@mastra/core/mastra'
 import { MastraLanguageModelV2Mock, simulateReadableStream } from '@mastra/core/test-utils/llm-mock'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { readAllConfirmed, readConfirmed, readInferred, retractConfirmed } from '../src/mastra/ledger'
-import { reviewSuspend, type Report } from '../src/mastra/schemas'
+import { viewFromSteps } from '../src/mastra/review'
+import { type Report } from '../src/mastra/schemas'
+import { reviewUrl, unwrapSuspend } from '../src/mastra/view'
 import { storage } from '../src/mastra/storage'
 import { readConfirmedFacts } from '../src/mastra/tools'
 import { claimCheck } from '../src/mastra/workflows/claim-check'
@@ -89,7 +91,10 @@ const startRun = async (mastra: Mastra, candidateId: string) => {
   return { run, result }
 }
 
-const payload = (result: any) => reviewSuspend.parse(result.steps['human-review'].suspendPayload)
+// What the CLI and the review page read: every claim, rebuilt from the step.
+const payload = (result: any) => viewFromSteps(result.steps)
+// What Studio prints: one claim in plain words.
+const slim = (result: any) => unwrapSuspend(result.steps['human-review'].suspendPayload)
 
 // The tools need a file per candidate, so tests use the real invented one and a fresh
 // resource each time would need a new file. Instead each test clears the ledger.
@@ -309,3 +314,54 @@ describe('a model that misbehaves', () => {
     expect(payload(result).flagged.find(c => c.id === 'C4')?.agentVerdict).toBe('could_not_check')
   })
 })
+
+describe('the pause shown in Studio', () => {
+  const body = (result: any) => Object.values(result.steps['human-review'].suspendPayload)[0] as Record<string, unknown>
+
+  it('titles the pause briefly and puts the review page address in the body', async () => {
+    const { run, result } = await startRun(buildMastra(), CANDIDATE)
+    expect(Object.keys(result.steps['human-review'].suspendPayload)).toEqual(['Decide 3 claims on the review page'])
+    expect(body(result)).toEqual({ reviewUrl: reviewUrl(run.runId) })
+  })
+
+  it('resuming with only a name decides nothing', async () => {
+    const { run } = await startRun(buildMastra(), CANDIDATE)
+    const r = await run.resume({ step: 'human-review', resumeData: { reviewer: 'ines' } })
+    expect(r.status).toBe('suspended')
+    expect(slim(r).problems).toEqual(['C2 still needs a decision.', 'C3 still needs a decision.', 'C4 still needs a decision.'])
+  })
+
+  it('refuses a correction with no text', async () => {
+    const { run } = await startRun(buildMastra(), CANDIDATE)
+    const r = await run.resume({ step: 'human-review', resumeData: { reviewer: 'ines', decisions: [{ claimId: 'C2', action: 'correct' }] } })
+    expect(r.status).toBe('suspended')
+    expect(slim(r).problems).toEqual(expect.arrayContaining(['C2: "correct" needs correctedFact.']))
+  })
+
+  it('refuses a different reviewer name part way through, so facts are credited correctly', async () => {
+    const { run } = await startRun(buildMastra(), CANDIDATE)
+    await run.resume({ step: 'human-review', resumeData: { reviewer: 'ines', decisions: [{ claimId: 'C2', action: 'reject' }] } })
+    const r = await run.resume({ step: 'human-review', resumeData: { reviewer: 'marco', decisions: [{ claimId: 'C3', action: 'reject' }] } })
+    expect(r.status).toBe('suspended')
+    expect(slim(r).problems[0]).toContain('started by ines')
+    expect(slim(r).decided.map(d => d.claimId)).toEqual(['C2'])
+  })
+
+  it('treats the same name in another case as the same reviewer', async () => {
+    const { run } = await startRun(buildMastra(), CANDIDATE)
+    await run.resume({ step: 'human-review', resumeData: { reviewer: 'Ines', decisions: [{ claimId: 'C2', action: 'reject' }] } })
+    const rest = ['C3', 'C4'].map(claimId => ({ claimId, action: 'reject' as const }))
+    const r = await run.resume({ step: 'human-review', resumeData: { reviewer: ' ines ', decisions: rest } })
+    expect(r.status).toBe('success')
+  })
+
+  it('still accepts a decisions list and approveSupported, for the CLI and the page', async () => {
+    const { run } = await startRun(buildMastra(), CANDIDATE)
+    const decisions = [{ claimId: 'C2', action: 'reject' as const }, { claimId: 'C3', action: 'reject' as const }, { claimId: 'C4', action: 'reject' as const }]
+    const r = await run.resume({ step: 'human-review', resumeData: { reviewer: 'ines', approveSupported: true, decisions } })
+    expect(r.status).toBe('success')
+    expect(((r as any).result as Report).claims[0].status).toBe('verified')
+  })
+})
+
+const result1Title = (r: any) => r.steps['human-review'].suspendPayload

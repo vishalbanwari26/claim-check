@@ -86,13 +86,40 @@ export const reviewResume = z.object({
   approveSupported: z.boolean().describe('True if you read the supported claims and accept them'),
 })
 
-export const reviewSuspend = z.object({
+// Studio's form cannot change per run, so decisions are not made in it. The pause points to the
+// review page, which shows every claim and resumes the run with a `decisions` list. Pass-through keeps
+// that list (and `approveSupported`) from the page, the CLI, or Studio's JSON tab.
+export const reviewForm = z.object({
+  reviewer: z.string().min(1).describe('Your name. Claims are decided on the review page, linked in the pause above'),
+}).passthrough()
+export const readDecisions = (raw: unknown) => z.array(decision).safeParse(raw ?? [])
+
+// What Studio prints in "The step is asking". Only what the reviewer needs: the claims. The other
+// fields are left out when empty, because Studio prints the whole payload. Fields of earlier
+// shapes are still read, so runs paused before this change can be opened and resumed.
+export const reviewSuspendBody = z.object({
+  claims: z.array(z.object({ slot: z.number().int(), id: z.string(), claim: z.string(), decision: z.enum(['approve', 'correct', 'reject']).optional() })).optional(),
+  decided: z.array(decision).default([]),
+  problems: z.array(z.string()).default([]),
+  reviewer: z.string().optional(),
+  uncheckedSentences: z.array(sentence).default([]),
+  reviewUrl: z.string().optional(),
+})
+
+// Studio shows a one-key payload's key as the box title, even while the box is closed. So the
+// payload is one key (a headline) holding reviewSuspendBody. Older shapes are read by unwrapSuspend.
+export const reviewSuspend = z.record(z.string(), z.unknown())
+
+// Everything a reviewer needs for all claims at once. Used by the CLI and the review page.
+export const reviewView = z.object({
   flagged: z.array(checkedClaim),
   supportedAwaitingApproval: z.array(checkedClaim),
   uncheckedSentences: z.array(sentence),
   decided: z.array(decision),
   problems: z.array(z.string()),
+  reviewUrl: z.string().optional(),
 })
+export type ReviewView = z.infer<typeof reviewView>
 
 export const finalStatus = z.enum(['verified', 'corrected', 'rejected', 'not_verified'])
 

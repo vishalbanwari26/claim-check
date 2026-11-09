@@ -3,10 +3,11 @@ import { createInterface } from 'node:readline/promises'
 import { parseArgs } from 'node:util'
 import { mastra } from './src/mastra'
 import { readAllConfirmed, readInferred, retractConfirmed } from './src/mastra/ledger'
-import { flagStepOutput, reviewSuspend, type Decision, type Report } from './src/mastra/schemas'
+import { pendingFor, startRun, submitDecisions } from './src/mastra/review'
+import { reviewUrl } from './src/mastra/view'
+import { flagStepOutput, type Decision, type Report, type ReviewView } from './src/mastra/schemas'
 import type { z } from 'zod'
 
-const STEP = 'human-review'
 const workflow = mastra.getWorkflow('claim-check')
 
 const { values: flags, positionals } = parseArgs({
@@ -27,7 +28,7 @@ const showClaim = (c: z.infer<typeof flagStepOutput>['claims'][number]) => {
   for (const e of c.citedEvidence) console.log(`     evidence ${e.id}: ${e.text.split('\n')[0]}`)
 }
 
-const showPending = (p: z.infer<typeof reviewSuspend>) => {
+const showPending = (p: ReviewView) => {
   console.log(`\nFLAGGED, needs a human decision (${p.flagged.length}):`)
   p.flagged.forEach(showClaim)
   console.log(`\nAGENT THINKS SUPPORTED, not verified until you approve (${p.supportedAwaitingApproval.length}):`)
@@ -49,14 +50,7 @@ const showReport = (r: Report) => {
   console.log(`\nCounts: ${JSON.stringify(r.counts)}. Facts added to memory: ${r.factsAdded.join(', ') || 'none'}.`)
 }
 
-const pendingFor = async (runId: string) => {
-  const state = await workflow.getWorkflowRunById(runId)
-  if (!state) throw new Error(`No run ${runId}`)
-  if (state.status !== 'suspended') throw new Error(`Run ${runId} is ${state.status}, not suspended`)
-  return reviewSuspend.parse((state.steps?.[STEP] as { suspendPayload?: unknown } | undefined)?.suspendPayload)
-}
-
-const askDecisions = async (p: z.infer<typeof reviewSuspend>) => {
+const askDecisions = async (p: ReviewView) => {
   const rl = createInterface({ input: process.stdin, output: process.stdout })
   const decisions: Decision[] = []
   for (const c of p.flagged.filter(c => !p.decided.some(d => d.claimId === c.id))) {
@@ -75,26 +69,22 @@ const askDecisions = async (p: z.infer<typeof reviewSuspend>) => {
 }
 
 if (command === 'check' && arg) {
-  const run = await workflow.createRun()
-  const result = await run.start({
-    inputData: { draft: readFileSync(arg, 'utf8'), candidateId: flags.candidate!, jobId: flags.job! },
+  const { runId, pending } = await startRun(workflow, {
+    draft: readFileSync(arg, 'utf8'), candidateId: flags.candidate!, jobId: flags.job!,
   })
-  if (result.status !== 'suspended') throw new Error(`Expected to stop for review, got ${result.status}: ${JSON.stringify(result)}`)
-  showPending(reviewSuspend.parse(result.steps[STEP].suspendPayload))
+  showPending(pending)
   console.log(`\nStopped for review. Nothing is verified yet. This process can exit, the run is saved.`)
-  console.log(`Run id: ${run.runId}\nNext:   npm run review -- ${run.runId}`)
+  console.log(`Run id: ${runId}\nNext:   npm run review -- ${runId}\nPage:   ${reviewUrl(runId)}`)
 } else if (command === 'review') {
   if (!arg) {
     const { runs } = await workflow.listWorkflowRuns({ status: 'suspended' })
     console.log(runs.length ? runs.map(r => `${r.runId}  ${r.updatedAt}`).join('\n') : 'No runs waiting for review.')
   } else {
-    const pending = await pendingFor(arg)
+    const pending = await pendingFor(workflow, arg)
     const resumeData = flags.decisions ? JSON.parse(readFileSync(flags.decisions, 'utf8')) : await (showPending(pending), askDecisions(pending))
-    const run = await workflow.createRun({ runId: arg })
-    const result = await run.resume({ step: STEP, resumeData })
-    if (result.status === 'success') showReport(result.result as Report)
-    else if (result.status === 'suspended') showPending(reviewSuspend.parse(result.steps[STEP].suspendPayload))
-    else throw new Error(`Resume ended as ${result.status}: ${JSON.stringify(result)}`)
+    const outcome = await submitDecisions(workflow, arg, resumeData)
+    if (outcome.done) showReport(outcome.report)
+    else showPending(outcome.pending)
   }
 } else if (command === 'facts' && arg === 'retract' && target) {
   const fact = await retractConfirmed(flags.candidate!, target, { by: flags.reviewer!, reason: flags.reason! })

@@ -4,10 +4,11 @@ import { addConfirmed, addInferred } from '../ledger'
 import { attachSentences, buildReport, judgeClaims, labelSentences, mergeDecisions, resolveRepo, splitSentences } from '../logic'
 import {
   checkStepOutput, checkerOutput, extractStepOutput, extractorOutput, flagStepOutput, report,
-  reviewResume, reviewSuspend, workflowInput,
+  readDecisions, reviewForm, reviewSuspend, workflowInput,
 } from '../schemas'
-import type { RepoCheck } from '../schemas'
+import type { Decision, RepoCheck } from '../schemas'
 import { checkRepoLanguage, readConfirmedFacts, readJobAd } from '../tools'
+import { reviewUrl, suspendHeadline, unwrapSuspend } from '../view'
 
 // Tools hand back an error object rather than throwing when their input is invalid. A step
 // must not carry on with that as if it were data.
@@ -93,24 +94,38 @@ const humanReview = createStep({
   inputSchema: flagStepOutput,
   outputSchema: report,
   suspendSchema: reviewSuspend,
-  resumeSchema: reviewResume,
+  resumeSchema: reviewForm,
   execute: async ({ inputData, resumeData, suspendData, suspend, runId, getInitData }) => {
     const flagged = inputData.claims.filter(c => c.flagged)
-    const pause = (decided: z.infer<typeof reviewSuspend>['decided'], problems: string[]) =>
+    // Studio prints this whole payload, so it holds only what has something to say. The title says what to do and
+    // the body holds the review page's address (see suspendHeadline). The CLI and the review page rebuild the all-claims view from this
+    // step's saved input instead.
+    const pause = (decided: Decision[], problems: string[], reviewer?: string) =>
       suspend({
-        flagged,
-        supportedAwaitingApproval: inputData.claims.filter(c => !c.flagged),
-        uncheckedSentences: inputData.uncheckedSentences,
-        decided,
-        problems,
+        [suspendHeadline(flagged, decided)]: {
+          reviewUrl: reviewUrl(runId),
+          ...(decided.length > 0 ? { decided } : {}),
+          ...(problems.length > 0 ? { problems } : {}),
+          ...(reviewer ? { reviewer } : {}),
+        },
       })
 
     if (!resumeData) return pause([], [])
 
-    const { decided, problems, remaining } = mergeDecisions(flagged, suspendData?.decided ?? [], resumeData.decisions)
+    // Each fact records who decided it, so one review must keep one reviewer.
+    const reviewer = resumeData.reviewer.trim()
+    const previous = suspendData ? unwrapSuspend(suspendData) : undefined
+    const prior = previous?.decided ?? []
+    const started = previous?.reviewer
+    const sent = readDecisions(resumeData.decisions)
+    if (!sent.success) return pause(prior, ['The decisions list could not be read.'], started)
+    if (started && started.toLowerCase() !== reviewer.toLowerCase())
+      return pause(prior, [`This review was started by ${started}. Use the same name, so each fact is credited to the person who decided it.`], started)
+
+    const { decided, problems, remaining } = mergeDecisions(flagged, prior, sent.data)
     if (problems.length > 0 || remaining.length > 0) {
       const waiting = remaining.map(c => `${c.id} still needs a decision.`)
-      return pause(decided, [...problems, ...waiting])
+      return pause(decided, [...problems, ...waiting], started ?? reviewer)
     }
 
     // Nothing is written until every flagged claim has a decision.
@@ -122,13 +137,13 @@ const humanReview = createStep({
       const fact = await addConfirmed(candidateId, {
         text: d.action === 'correct' ? d.correctedFact!.trim() : claim.text,
         source: d.action === 'correct' ? 'human-correction' : 'human-approval',
-        confirmedBy: resumeData.reviewer,
+        confirmedBy: reviewer,
         runId,
         originClaim: claim.text,
       })
       factsAdded.push(fact.id)
     }
-    return buildReport(inputData.claims, inputData.uncheckedSentences, decided, resumeData.approveSupported, resumeData.reviewer, factsAdded)
+    return buildReport(inputData.claims, inputData.uncheckedSentences, decided, resumeData.approveSupported === true, reviewer, factsAdded)
   },
 })
 
